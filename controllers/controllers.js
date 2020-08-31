@@ -64,33 +64,44 @@ class Controller{
         })
     }
     static putTodosById(req,res){
-        Todo.update({
-            title: req.body.title,
-            description: req.body.description,
-            status: req.body.status,
-            due_date: req.body.due_date
-        },{
+        Todo.findOne({
             where:{
-                id: req.params.id
+                id:req.params.id
             }
         })
         .then((data)=>{
-            res.status(200).json({
-                message:["Data berhasil diperbaharui"]
-            })
-        })
-        .catch((err)=>{
-            if(!err){
-                res.status(404).json({
-                    errors: err.errors
+            if(data){
+                Todo.update({
+                    title: req.body.title,
+                    description: req.body.description,
+                    status: req.body.status,
+                    due_date: req.body.due_date
+                },{
+                    where:{
+                        id: req.params.id
+                    }
+                })
+                .then(()=>{
+                    res.status(200).json({
+                        message:["Data berhasil diperbaharui"]
+                    })
+                })
+                .catch((err)=>{
+                    res.status(400).json({
+                        errors: [`Bad Request`]
+                    })
                 })
             }
             else{
-                res.satus(500).json({
-                    errors: ["Internal server error"]
+                res.status(404).json({
+                    errors: ["Not found error"]
                 })
             }
-            
+        })
+        .catch((err)=>{
+            res.status(500).json({
+            message: ["Internal server error"]
+            })
         })
     }
     static deleteTodosById(req,res){
@@ -130,6 +141,26 @@ class Controller{
         })
     }
     static postRegister(req,res){
+        let dataUser = {
+            email: req.body.email,
+            password: req.body.password
+        }
+        User.create(dataUser)
+        .then((data)=>{
+            res.status(201).json({
+                id:data.id,
+                email:data.email,
+                message:"Pendaftaran berhasil"
+            })
+        })
+        .catch((err)=>{
+            res.send(err)
+            res.status(500).json({
+                message:["Internal Server Error"]
+            })
+        })
+    }
+    static postLogin(req,res){
         
     }
 }
