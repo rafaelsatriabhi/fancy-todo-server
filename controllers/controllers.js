@@ -1,4 +1,6 @@
 const {Todo,User} = require(`../models/index.js`)
+const bcrypt = require(`bcryptjs`)
+const jwt = require(`jsonwebtoken`)
 
 class Controller{
 
@@ -27,19 +29,34 @@ class Controller{
         })
     }
     static getTodos(req,res){
-        Todo.findAll({
-            include: [
-                User
-            ]
-        }) 
-        .then((data)=>{
-            res.status(200).json(data)
-        })
-        .catch((err)=>{
-            res.status(500).json({
-                errors:  ["Internal server error"]
+
+        if(!req.headers.token){
+            res.status(401).json({
+                message:"Authentication Fail"
             })
-        })
+        }
+        else{
+            try{
+                const verified = jwt.verify(req.headers.token,process.env.JWT_SECRET_KEY)
+                Todo.findAll({
+                    include: [
+                        User
+                    ]
+                }) 
+                .then((data)=>{
+                    res.status(200).json(data)
+                })
+                .catch((err)=>{
+                    res.status(500).json({
+                        errors:  ["Internal server error"]
+                    })
+                })
+            } catch{
+                res.status(401).json({
+                    message:"Authentication Fail"
+                })
+            }       
+        }
     }
     static getTodosById(req,res){
         Todo.findAll({
@@ -154,14 +171,48 @@ class Controller{
             })
         })
         .catch((err)=>{
-            res.send(err)
-            res.status(500).json({
-                message:["Internal Server Error"]
-            })
+            if(err.name === "SequelizeValidationError"){
+                res.status(400).json({
+                    message: err.errors[0].message    
+                })
+            }
+            else{
+                res.status(500).json({
+                    message:["Internal Server Error"]
+                })
+            }
         })
     }
     static postLogin(req,res){
-        
+        User.findOne({
+            where:{
+                email:req.body.email
+            }
+        })
+        .then((data)=>{
+            if(data){
+                if(bcrypt.compareSync(req.body.password,data.password)){
+                    const payload = {email:data.email}
+                    const token = jwt.sign(payload,process.env.JWT_SECRET_KEY)
+                    res.json({
+                        token:token
+                    })
+                }
+                else{
+                    res.status(400).json({
+                        message: "Invalid email/password"
+                    })
+                }  
+            }
+            else{
+                res.status(400).json({
+                    message: "Invalid email/password"
+                })
+            }  
+        })
+        .catch((err)=>{
+            res.send(err)
+        })
     }
 }
 
