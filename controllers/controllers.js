@@ -171,7 +171,7 @@ class Controller{
             })
         })
         .catch((err)=>{
-            if(err.name === "SequelizeValidationError"){
+            if(err.errors[0].message === "email must be unique"){
                 res.status(400).json({
                     message: err.errors[0].message    
                 })

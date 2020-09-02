@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "rafael",
-    "database": "rest_api",
+    "database": "todos-app",
     "host": "localhost",
     "dialect": "postgres"
   },
