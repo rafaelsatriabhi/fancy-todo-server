@@ -1,6 +1,8 @@
 const {Todo,User} = require(`../models/index.js`)
 const bcrypt = require(`bcryptjs`)
 const jwt = require(`jsonwebtoken`)
+const {google} = require(`googleapis`)
+const {oAuth2} = google.auth
 
 class Controller{
 
@@ -105,7 +107,8 @@ class Controller{
                 })
                 .catch((err)=>{
                     res.status(400).json({
-                        errors: [`Bad Request`]
+                        errors: err
+                        // errors: [`Bad Request`]
                     })
                 })
             }
@@ -144,7 +147,7 @@ class Controller{
                         message: ["Todos berhasil dihapus"]
                     })
                 })
-                .cathc((err)=>{
+                .catch((err)=>{
                     res.status(400).json({
                         errors: err.errors
                     })
