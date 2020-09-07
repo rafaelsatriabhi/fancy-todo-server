@@ -1,4 +1,4 @@
-const baseUrl = `http://localhost:3000`
+const baseUrl = `http://localhost:3001`
 
 $(document).ready(()=>{
     checkAuth()
@@ -27,10 +27,11 @@ function login(event){
 }
 function checkAuth(){
     $(`#login-page`).show()
-    $(`#homepage`).hide()
+    $(`#home-page`).hide()
+    $(`#register-page`).hide()
     if(localStorage.token){
         $(`#login-page`).hide()
-        $(`#homepage`).show()
+        $(`#home-page`).show()
         $(`#createTodo`).hide()
         $(`#updateTodo`).hide()
 
@@ -40,7 +41,7 @@ function checkAuth(){
     }
     else{
         $(`#login-page`).show()
-        $(`#homepage`).hide()
+        $(`#home-page`).hide()
         $(`#createTodo`).hide()
         $(`#updateTodo`).hide()
         console.log("Belum login")
@@ -92,7 +93,7 @@ function fetchTodos(){
 }
 
 function addTodoPage(){
-    $(`#homepage`).hide()
+    $(`#home-page`).hide()
     $(`#createTodo`).show()
 }
 
@@ -127,13 +128,14 @@ function deleteTodo (params){
       method:"DELETE"
   })
   .done((data)=>{
+      checkAuth()
       console.log(data)
   })
 }
 
 
 function updatePage(params){
-    $(`#homepage`).hide()
+    $(`#home-page`).hide()
     $(`#updateTodo`).show()
     localStorage.id = params
 }
@@ -163,27 +165,55 @@ function updateTodo(event){
     })
 }
 
-function onSignIn(googleUser) {
-    let profile = googleUser.getBasicProfile()
-    console.log("ID: " + profile.getId())
-    console.log('Full Name: ' + profile.getName())
-    console.log('Given Name: ' + profile.getGivenName())
-    console.log('Family Name: ' + profile.getFamilyName())
-    console.log("Image URL: " + profile.getImageUrl())
-    console.log("Email: " + profile.getEmail())
+function registerPage(){
+
+}
+
+
+// function register(){
+//     event.preventDefault()
+   
+//     let email = $(`#email-input`).val()
+//     let password = $(`#password-input`).val()
+
+//     $.ajax(`${baseUrl}/users/register`, {
+//         method:`POST`,
+//         data:{
+//             email,
+//             password
+//         }
+//     })
+//     .done((data)=>{
+//         localStorage.token = data.token
+//         checkAuth()
+//     })
+//     .fail((err)=>{
+//         console.log(err)
+//     })  
+// }
+
+
+// function onSignIn(googleUser) {
+//     let profile = googleUser.getBasicProfile()
+//     console.log("ID: " + profile.getId())
+//     console.log('Full Name: ' + profile.getName())
+//     console.log('Given Name: ' + profile.getGivenName())
+//     console.log('Family Name: ' + profile.getFamilyName())
+//     console.log("Image URL: " + profile.getImageUrl())
+//     console.log("Email: " + profile.getEmail())
   
-    let id_token = googleUser.getAuthResponse().id_token;
-    console.log("ID Token: " + id_token)
-    $.ajax({
-    method: 'POST',
-    url: `http://localhost:3000/user/tokensignin`,
-    data: { id_token: id_token }
-    })
-    .done((response)=>{
-      localStorage.setItem('token',response.token)
-      window.location.href = "dashboard.html"
-    })
-    .fail((jqXHR, textStatus)=>{
-      console.log(textStatus)
-    })
-  }
+//     let id_token = googleUser.getAuthResponse().id_token;
+//     console.log("ID Token: " + id_token)
+//     $.ajax({
+//     method: 'POST',
+//     url: `http://localhost:3000/user/tokensignin`,
+//     data: { id_token: id_token }
+//     })
+//     .done((response)=>{
+//       localStorage.setItem('token',response.token)
+//       window.location.href = "dashboard.html"
+//     })
+//     .fail((jqXHR, textStatus)=>{
+//       console.log(textStatus)
+//     })
+//   }
