@@ -2,7 +2,6 @@ const {Todo,User} = require(`../models/index.js`)
 const bcrypt = require(`bcryptjs`)
 const jwt = require(`jsonwebtoken`)
 
-
 class Controller{
     static postTodos(req,res){
         Todo.create({
@@ -46,7 +45,7 @@ class Controller{
                 .then((data)=>{
                     res.status(200).json(data)
                 })
-                .catch((err)=>{
+                .catch(()=>{
                     res.status(500).json({
                         errors:  ["Internal server error"]
                     })
