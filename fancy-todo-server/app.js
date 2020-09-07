@@ -1,14 +1,12 @@
-if(process.env.NODE_ENV == "development"){
-    require("dotenv").config()
-}
-
-console.log(process.env.NODE_ENV)
+// if(process.env.NODE_ENV == "development"){
+//     require("dotenv").config()
+// }
 
 const express = require(`express`)
 // require(`dotenv`).config()
 const app = express()
 const cors = require('cors')
-const port = 3000
+const port = process.env.PORT
 const indexRouter = require(`./routers/index.js`)
 
 //Body parser
