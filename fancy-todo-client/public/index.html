@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+    <section id="login-page" class="container">
+        <h1><strong>Welcome to Todos Page</strong></h1>
+        <form onsubmit= "login(event)" id="login">
+            <div class="form-group">
+              <label for="email-input">Email</label>
+              <input type="email" class="form-control" id="email-input" aria-describedby="emailHelp">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="password-input">Password</label>
+              <input type="password" class="form-control" id="password-input">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          <button class="btn btn-outline-success my-3" onclick="onSignIn(googleUser)">Login with Google Account</button><br>
+          <p>Not Registered yet?</p>
+          <button class="btn btn-outline-info" onclick="toRegisterPage()">register</button>
+    </section>
+    
+    <section id="register-page" class="container">
+        <h1>Register Page</h1>
+        <form onsubmit="register(event)">
+            <label for="email-register">Email</label><br>
+            <input type="text" id="email-register"><br>
+            <label for="password-register">Password</label><br>
+            <input class="mb-2" type="password" id="password-register"><br>
+            <button class="btn btn-primary">register</button>
+        </form><br>
+        <button class="btn btn-secondary" onclick="cancelToRegister()" >Cancel</button>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+
+
+<section id="home-page" class="container mt-5">
+    <button class="btn btn-danger" onclick="logout()">logout</button>
+    <div>
+        <h1>Welcome to Todo's Homepage</h1><br>
+        <button class="btn btn-primary" onclick="addTodoPage()" >Add new Todo</button><br><br>
+        <table class="table" border="1" id="todosTable"> 
+        </table><br>
+    </div>
+</section>
+ 
+
+<section  id="createTodo" class="container mt-5">
+    <div>
+        <h1>Create New Todo</h1>
+        <form class="mb-3" onsubmit="createTodo(event)">
+            <label for="title-input">Title</label><br>
+            <input type="text" id="title-input"><br>
+            <label for="description-input">Description</label><br>
+            <input type="text" id="description-input"><br>
+            <label for="dueDate-input">dueDate</label><br>
+            <input type="datetime-local" id="dueDate-input"><br><br>
+            <button class="btn btn-primary">Submit</button>
+        </form>
+        <button onclick="cancelToCreate()" class="btn btn-secondary">Cancel</button>
+    </div>
+</section>
+
+<section id="updateTodo">
+    <div class="container p-3">
+        <h1>Update Todo</h1>
+        <form class="mb-3" onsubmit="updateTodo(event)">
+            <label for="title-update">Title</label><br>
+            <input type="text" id="title-update"><br>
+            <label for="description-update">Description</label><br>
+            <input type="text" id="description-update"><br>
+            <label for="dueDate-update">dueDate</label><br>
+            <input type="datetime-local" id="dueDate-update"><br>
+            <label for="status-update">Status</label><br>
+            <button class="btn btn-primary">Submit</button>
+        </form>
+        <button class="btn btn-secondary" onclick="checkAuth()">Cancel</button>
+    </div>
+</section>
+
+</body>
+
+<script>
+
+</script>
+
+</html>

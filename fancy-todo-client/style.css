@@ -1,0 +1,29 @@
+
+
+.hidden{
+    display:none;
+}
+
+.container{
+    display: flex;
+    border: 3px solid #333;
+    height:700px;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    justify-content:space-between;
+    /* align-items: flex-start; */
+    align-content: flex-start;
+}
+
+.container div{
+    height: 150px;
+    width: 150px;
+    background-color: lightcoral;
+    margin: 5px;
+    font-size: 30px;
+}
+
+.container div.item1{
+    background-color:#857;
+    font-size: 70px;
+}
