@@ -1,4 +1,4 @@
-const baseUrl = `http://localhost:3001`
+const baseUrl = `http://localhost:3000`
 
 $(document).ready(()=>{
     checkAuth()
@@ -27,23 +27,16 @@ function login(event){
 }
 function checkAuth(){
     $(`#login-page`).show()
-    $(`#home-page`).hide()
-    $(`#register-page`).hide()
+   $(`#main-page`).hide()
     if(localStorage.token){
         $(`#login-page`).hide()
-        $(`#home-page`).show()
-        $(`#createTodo`).hide()
-        $(`#updateTodo`).hide()
-
-
+        $(`#main-page`).show()
         fetchTodos()
         console.log("Sudah login")
     }
     else{
         $(`#login-page`).show()
-        $(`#home-page`).hide()
-        $(`#createTodo`).hide()
-        $(`#updateTodo`).hide()
+        $(`#main-page`).hide()
         console.log("Belum login")
     }
 }
@@ -141,7 +134,6 @@ function updatePage(params){
 }
 
 function updateTodo(event){
-   event.preventDefault()
     let title = $(`#title-update`).val()
     let description = $(`#description-update`).val()
     let due_date = $(`#dueDate-update`).val()

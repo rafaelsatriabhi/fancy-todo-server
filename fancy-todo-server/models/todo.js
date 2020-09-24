@@ -18,11 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     status: DataTypes.STRING,
     due_date: {
-      type:DataTypes.DATE,
+      type: DataTypes.DATE,
       validate:{
         isAfter:{
           args: new Date(Date.now()).toLocaleString(),
-          msg: "Yang lalu biarlah berlalu ya..."
+          msg: "Waktu ditentukan kurang dari waktu aktual"
         }
       }
     },

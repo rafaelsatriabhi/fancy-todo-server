@@ -9,7 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: {
+          args: true,
+          msg: 'Email is already in used'
+        }
       },
       password: {
         type: Sequelize.STRING

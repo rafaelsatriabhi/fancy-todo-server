@@ -3,64 +3,42 @@ const bcrypt = require(`bcryptjs`)
 const jwt = require(`jsonwebtoken`)
 
 class Controller{
-    static postTodos(req,res){
+    static postTodos(req,res,next) {
         Todo.create({
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
+            status: "Belum terealisasi",
             due_date: req.body.due_date,
-            UserId:req.body.UserId
+            UserId: req.loggedInUser.id
         })
         .then((data)=>{
            res.status(201).json(data)
         })
         .catch((err)=>{
-            if(err.errors[0].type === `Validation error`){
-                res.status(400).json({
-                    errors: err.errors
-                })
-            }
-            else{
-                res.status(500).json({
-                    errors: ["Internal server error"]
-                })
-            }
+            next(err)
         })
     }
-    static getTodos(req,res){
-
-        if(!req.headers.token){
-            res.status(401).json({
-                message:"Authentication Fail"
-            })
-        }
-        else{
-            try{
-                const verified = jwt.verify(req.headers.token,process.env.JWT_SECRET_KEY)
-                Todo.findAll({
-                    include: [
-                        User
-                    ]
-                }) 
-                .then((data)=>{
-                    res.status(200).json(data)
-                })
-                .catch(()=>{
-                    res.status(500).json({
-                        errors:  ["Internal server error"]
-                    })
-                })
-            } catch{
-                res.status(401).json({
-                    message:"Authentication Fail"
-                })
-            }       
-        }
+    static getTodos(req,res,next){        
+        Todo.findAll({
+            where: {
+                UserId: req.loggedInUser.id
+            },
+            include: [
+                User
+            ],
+            order: [['id','ASC']]
+        }) 
+        .then((data)=>{
+            res.status(200).json(data)
+        })
+        .catch((err)=>{
+            next(err)
+        })
     }
-    static getTodosById(req,res){
+    static getTodosById(req,res,next) {
         Todo.findAll({
             where:{
-                UserId:req.params.id
+                id: req.params.id
             }
         })
         .then((data)=>{
@@ -74,12 +52,10 @@ class Controller{
             }
         })
         .catch((err)=>{
-            res.status(500).json({
-                errors: ["internal server error"]
-            })
+            next(err)
         })
     }
-    static putTodosById(req,res){
+    static putTodosById(req,res,next){
         Todo.findOne({
             where:{
                 id:req.params.id
@@ -103,10 +79,7 @@ class Controller{
                     })
                 })
                 .catch((err)=>{
-                    res.status(400).json({
-                        errors: err
-                        // errors: [`Bad Request`]
-                    })
+                    next(err)
                 })
             }
             else{
@@ -116,12 +89,10 @@ class Controller{
             }
         })
         .catch((err)=>{
-            res.status(500).json({
-            message: ["Internal server error"]
-            })
+            next(err)
         })
     }
-    static deleteTodosById(req,res){
+    static deleteTodosById(req,res,next){
         Todo.findOne({
             where:{
                 id:req.params.id
@@ -145,19 +116,15 @@ class Controller{
                     })
                 })
                 .catch((err)=>{
-                    res.status(400).json({
-                        errors: err.errors
-                    })
+                   next(err)
                 })
             }
         })
-        .catch(()=>{
-            res.status(500).json({
-                    errors: ["Internal server error"]
-                })
+        .catch((err)=>{
+            next(err)
         })
     }
-    static postRegister(req,res){
+    static postRegister(req,res,next) {
         let dataUser = {
             email: req.body.email,
             password: req.body.password
@@ -171,19 +138,10 @@ class Controller{
             })
         })
         .catch((err)=>{
-            if(err.errors[0].message === "email must be unique"){
-                res.status(400).json({
-                    message: err.errors[0].message    
-                })
-            }
-            else{
-                res.status(500).json({
-                    message:["Internal Server Error"]
-                })
-            }
+            next(err)
         })
     }
-    static postLogin(req,res){
+    static postLogin(req,res,next){
         User.findOne({
             where:{
                 email:req.body.email
@@ -191,8 +149,8 @@ class Controller{
         })
         .then((data)=>{
             if(data){
-                if(bcrypt.compareSync(req.body.password,data.password)){
-                    const payload = {email:data.email}
+                if (bcrypt.compareSync(req.body.password,data.password)){
+                    const payload = {id: data.id,email: data.email}
                     const token = jwt.sign(payload,process.env.JWT_SECRET_KEY)
                     res.json({
                         token:token
@@ -211,7 +169,7 @@ class Controller{
             }  
         })
         .catch((err)=>{
-            res.send(err)
+            next(err)
         })
     }
     static googleLoginHandler(req, res, next) {

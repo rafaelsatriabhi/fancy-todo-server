@@ -6,7 +6,10 @@
     <title>Document</title>
     <link rel="shortcut icon" href="#">
 </head>
+<link rel="stylesheet" href="./style.css">
 <body>
+
+
     <section id="login-page">
         <form onsubmit= "login(event)" id="login">
             <label for="email-input">Email</label><br>
@@ -17,67 +20,74 @@
             <button onclick="onSignIn(googleUser)">Login with Google Account</button>
         </form>
     </section>
-    
-    <section id = "register-page">
-        <form onsubmit = "register(event)">
-            <label for="email-input">Email</label><br>
-            <input type="text" id="email-input"><br>
-            <label for="password-input">Password</label><br>
-            <input type="password" id="password-input"><br>
-            <button>Login</button>
-            <button onclick="registerPage()" >register</button>
-        </form>
-    </section>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-    <script src="main.js"></script>
 
 
-<section id="home-page">
-    <button onclick="logout()">logout</button>
-    <div>
-        <h1>Welcome to Todo's Homepage</h1><br><br>
-        <table border="1" id="todosTable">
-        </table>
-    </div>
-    <button onclick="addTodoPage()" >Add new Todo</button>
+
+<section id=main-page>
+        <div class="container">
+            <div class="item1">1</div>
+            <div class="item2">2</div>
+            <div class="item3">3</div>
+            <div class="item4">4</div>
+            <div class="item5">5</div>
+        </div>
+        
+        <section id="home-page">
+            <button onclick="logout()">logout</button>
+            <div>
+                <h1>Welcome to Todo's Homepage</h1><br><br>
+                <table border="1" id="todosTable">
+                </table>
+            </div>
+            <button onclick="addTodoPage()" >Add new Todo</button>
+        </section>
+
+        <section  id="createTodo" class="hidden">
+            <div>
+                <h1>Create New Todo</h1>
+                <form action="">
+                    <label for="title-input">Title</label><br>
+                    <input type="text" id="title-input"><br>
+                    <label for="description-input">Description</label><br>
+                    <input type="text" id="description-input"><br>
+                    <label for="dueDate-input">dueDate</label><br>
+                    <input type="datetime-local" id="dueDate-input"><br>
+                    <label for="status-input">Status</label><br>
+                    <button onclick="createTodo()">Submit</button>
+                    <button onclick="checkAuth()" >Cancel</button>
+                </form>
+            </div>
+        </section>
+
+        <section  id="updateTodo" class="hidden">
+            <div>
+                <h1>Update Todo</h1>
+                <form action="">
+                    <label for="title-update">Title</label><br>
+                    <input type="text" id="title-update"><br>
+                    <label for="description-update">Description</label><br>
+                    <input type="text" id="description-update"><br>
+                    <label for="dueDate-update">dueDate</label><br>
+                    <input type="datetime-local" id="dueDate-update"><br>
+                    <label for="status-update">Status</label><br>
+                    <button onclick="updateTodo(event)">Submit</button>
+                    <button onclick="checkAuth()" >Cancel</button>
+                </form>
+            </div>
+        </section>
+        <section id = "register-page" class="hidden">
+            <form onsubmit = "register(event)">
+                <label for="email-input">Email</label><br>
+                <input type="text" id="email-input"><br>
+                <label for="password-input">Password</label><br>
+                <input type="password" id="password-input"><br>
+                <button>Login</button>
+                <button onclick="registerPage()" >register</button>
+            </form>
+        </section>
 </section>
- 
 
-<section  id="createTodo">
-    <div>
-        <h1>Create New Todo</h1>
-        <form action="">
-            <label for="title-input">Title</label><br>
-            <input type="text" id="title-input"><br>
-            <label for="description-input">Description</label><br>
-            <input type="text" id="description-input"><br>
-            <label for="dueDate-input">dueDate</label><br>
-            <input type="datetime-local" id="dueDate-input"><br>
-            <label for="status-input">Status</label><br>
-            <button onclick="createTodo()">Submit</button>
-            <button onclick="checkAuth()" >Cancel</button>
-        </form>
-    </div>
-</section>
-
-<section  id="updateTodo">
-    <div>
-        <h1>Update Todo</h1>
-        <form action="">
-            <label for="title-update">Title</label><br>
-            <input type="text" id="title-update"><br>
-            <label for="description-update">Description</label><br>
-            <input type="text" id="description-update"><br>
-            <label for="dueDate-update">dueDate</label><br>
-            <input type="datetime-local" id="dueDate-update"><br>
-            <label for="status-update">Status</label><br>
-            <button onclick="updateTodo(event)">Submit</button>
-            <button onclick="checkAuth()" >Cancel</button>
-        </form>
-    </div>
-</section>
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script src="main.js"></script>
 </body>
 </html>
